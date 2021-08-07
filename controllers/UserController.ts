@@ -2,10 +2,20 @@ import express from "express";
 import { validationResult } from "express-validator";
 import { UserModel } from "../models/UserModel";
 import { generateMD5 } from "../utils/generateHash";
+import {sendMail} from "../utils/mailer";
+
 
 class UserController{
     async index(_: any,res:express.Response):Promise<void>{
        try {
+        const message = {
+            from: "sender@server.com",
+            to: "sgadov2vanya@yandex.ru",
+            subject: "Тема 123",
+            text: "Text message",
+            html: "<p>Hello world! <b>First letter</b></p>"
+          };
+          sendMail(message)
         const users = await UserModel.find({});
 
         res.json({
